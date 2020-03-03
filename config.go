@@ -45,5 +45,4 @@ func newConfig(configName string) (*config, error) {
 			return nil, err
 		}
 	}
-	return config, nil
 }

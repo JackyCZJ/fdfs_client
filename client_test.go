@@ -8,7 +8,7 @@ import (
 
 func TestUpload(t *testing.T) {
 	client, err := NewClientWithConfig("fdfs.conf")
-	defer client.Destory()
+	defer client.Destroy()
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -36,7 +36,7 @@ func TestUpload(t *testing.T) {
 
 func TestUploadFile100(t *testing.T) {
 	client, err := NewClientWithConfig("fdfs.conf")
-	defer client.Destory()
+	defer client.Destroy()
 	if err != nil {
 		fmt.Println(err.Error())
 		return
@@ -67,7 +67,7 @@ func TestUploadFile100(t *testing.T) {
 
 func TestUploadBuffer100(t *testing.T) {
 	client, err := NewClientWithConfig("fdfs.conf")
-	defer client.Destory()
+	defer client.Destroy()
 	if err != nil {
 		fmt.Println(err.Error())
 		return

@@ -65,7 +65,7 @@ func newConnPool(addr string, maxConns int) (*connPool, error) {
 	return connPool, nil
 }
 
-func (this *connPool) Destory() {
+func (this *connPool) Destroy() {
 	if this == nil {
 		return
 	}
@@ -129,8 +129,6 @@ func (this *connPool) get() (net.Conn, error) {
 		conn := e.Value.(pConn)
 		return conn, nil
 	}
-	//not reach
-	return nil, nil
 }
 
 func (this *connPool) put(pConn pConn) error {

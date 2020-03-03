@@ -13,6 +13,33 @@ type Client struct {
 	config          *config
 }
 
+func NewClient(trackerAddr []string ,maxConns int )(*Client,error){
+	if len(trackerAddr) == 0 {
+		return nil ,fmt.Errorf("tracker Addr can't be zero")
+	}
+	if maxConns == 0 {
+		return nil , fmt.Errorf("max Connection can't be zero")
+	}
+	client := &Client{
+		config:          &config{
+								trackerAddr:trackerAddr,
+								maxConns:maxConns,
+						},
+		storagePoolLock: &sync.RWMutex{},
+	}
+	client.trackerPools = make(map[string]*connPool)
+	client.storagePools = make(map[string]*connPool)
+
+	for _, addr := range trackerAddr {
+		trackerPool, err := newConnPool(addr, maxConns)
+		if err != nil {
+			return nil, err
+		}
+		client.trackerPools[addr] = trackerPool
+	}
+	return client, nil
+}
+
 func NewClientWithConfig(configName string) (*Client, error) {
 	config, err := newConfig(configName)
 	if err != nil {
@@ -36,15 +63,15 @@ func NewClientWithConfig(configName string) (*Client, error) {
 	return client, nil
 }
 
-func (this *Client) Destory() {
+func (this *Client) Destroy() {
 	if this == nil {
 		return
 	}
 	for _, pool := range this.trackerPools {
-		pool.Destory()
+		pool.Destroy()
 	}
 	for _, pool := range this.storagePools {
-		pool.Destory()
+		pool.Destroy()
 	}
 }
 
